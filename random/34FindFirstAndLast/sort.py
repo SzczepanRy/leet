@@ -1,0 +1,35 @@
+
+arr =[2,3,1,21,3,3,54]
+
+
+print(arr)
+def sort(arr):
+    splitI = len(arr)//2
+    left= arr[0:splitI]
+    right= arr[splitI:len(arr)]
+    if( len(left) >0 and len(right) >0):
+        left = sort(arr[0:splitI])
+        right = sort(arr[splitI:len(arr)])
+
+    return merge(left , right)
+
+def merge(left , right ):
+    temp=[]
+    i = j = 0
+
+    while i < len(left) and j < len(right) :
+        if(left[i] <= right[j]):
+            temp.append(left[i])
+            i+=1
+        else:
+            temp.append(right[j])
+            j+=1
+
+    temp.extend(left[i:])
+    temp.extend(right[j:])
+    return temp
+
+kurwa = sort(arr)
+
+print(kurwa)
+
