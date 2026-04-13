@@ -1,4 +1,6 @@
 from collections import deque
+
+
 class Solution(object):
     def canVisitAllRooms(self, rooms):
         """
@@ -9,7 +11,7 @@ class Solution(object):
         n = len(rooms)
         visited = [False] * n
         visited[0] = True
-        stack=[0]
+        stack = [0]
 
         while stack:
             room = stack.pop()
@@ -22,7 +24,6 @@ class Solution(object):
             if not v:
                 return False
         return True
-
 
 
 s = Solution()

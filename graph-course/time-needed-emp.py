@@ -10,6 +10,7 @@ class Solution(object):
         """
         ## men -> emp
         out= [[] for _ in range(n)]
+
         for emp , men in  enumerate(manager):
             if men != -1:
                 out[men].append(emp)
@@ -24,7 +25,7 @@ class Solution(object):
             maxT= max(maxT , time)
 
             for e  in out[parent]:
-                queue.append((v, time+ informTime[u]))
+                queue.append((v, time+ informTime[parent]))
 
         return maxT
 
