@@ -5,28 +5,20 @@ class Solution(object):
         :type trust: List[List[int]]
         :rtype: int
         """
-        p , j = trust[0]
+        trust_score = [0] * (n + 1)
 
-        s= set()
-        if j == p:
-            return -1
-        s.add(p)
+        for a, b in trust:
+            # Osoba 'a' ufa komuś -> tracimy szansę na bycie sędzią
+            trust_score[a] -= 1
+            # Osoba 'b' jest obdarzona zaufaniem -> zyskuje punkt
+            trust_score[b] += 1
 
-        for i in range(1,len(trust)):
-            a, b = trust[i]
+        # Szukamy osoby, która ma wynik n - 1
+        for i in range(1, n + 1):
+            if trust_score[i] == n - 1:
+                return i
 
-            if b !=  j :
-                return -1
-            if a == j :
-                return -1
-            s.add(a)
-
-        for i in range(1,n):
-            if i not in s and i != j:
-                return -1
-
-        print(j)
-        return j
+        return -1
 
 
 
