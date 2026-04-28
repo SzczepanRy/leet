@@ -5,34 +5,39 @@ class Solution(object):
         :rtype: bool
         """
 
-        n = len(graph)
-        # Tablica kolorów: -1 to brak koloru, 0 i 1 to dwa kolory
-        colors = [-1] * n
+        n= len(graph)
+        colors = [-1]*n
+        colors[0] = 0
 
-        def dfs(v, c):
-            colors[v] = c
-            for neighbor in graph[v]:
-                # Jeśli sąsiad ma ten sam kolor co my -> sprzeczność (cykl nieparzysty)
-                if colors[neighbor] == c:
-                    return False
-                # Jeśli sąsiad nie ma koloru -> kolorujemy go kolorem przeciwnym (1-c)
-                if colors[neighbor] == -1:
-                    if not dfs(neighbor, 1 - c):
+        def dfs(v,c):
+            for u in graph[v]:
+                if colors[u] == -1:
+                    colors[u] = c
+                    val =dfs(u , 1-c)
+                    if not val :
+                        return val
+                else:
+                    if colors[u] != c:
                         return False
+
             return True
 
-        # Dla pewności (nawet jeśli spójny) pętla po wszystkich wierzchołkach
-        for i in range(n):
-            if colors[i] == -1:
-                if not dfs(i, 0):
-                    return False
-
-        return True
 
 
 
+        print(dfs(0,1))
+
+
+
+
+
+
+
+
+
+
+graph = [[1,3],[0,2],[1,3],[0,2]]
 
 graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
-graph = [[1,3],[0,2],[1,3],[0,2]]
 s = Solution()
 s.isBipartite(graph)
