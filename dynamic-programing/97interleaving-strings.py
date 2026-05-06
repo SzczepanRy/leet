@@ -43,18 +43,7 @@ class Solution(object):
                 dp[i][j]= leftcheck or topcheck
 
 
-        print(dp[n-1][m-1])
-
-
-
-
-        print(s1)
-
-        for arr in dp :
-            print(arr)
-
-
-
+        return dp[m-1][n-1]
 
 
 
