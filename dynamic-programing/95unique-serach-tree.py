@@ -21,23 +21,23 @@ class Solution(object):
                 return [None]
 
 
-            all=[]
+            allT=[]
 
-            for i in range(start, end):
+            for i in range(start, end+1):
 
                 leftSubtrees = build(start, i-1)
                 rightSubtrees = build(i+1, end)
+                print(leftSubtrees ,rightSubtrees  )
 
                 for left in leftSubtrees:
                     for right in rightSubtrees:
                         root = TreeNode(i) # Tworzymy korzeń
                         root.left = left   # Podpinamy lewe poddrzewo
                         root.right = right # Podpinamy prawe poddrzewo
-                        all.append(root) # Dodajemy gotowe drzewo do listy
+                        allT.append(root) # Dodajemy gotowe drzewo do listy
 
-            return all
+            return allT
 
         return build(1, n)
 
 
-        build(1 , n)
