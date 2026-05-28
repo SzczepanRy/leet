@@ -1,5 +1,6 @@
 # i want to kill myself
 
+
 class Solution(object):
     def canIWin(self, maxChoosableInteger, desiredTotal):
         """
@@ -8,67 +9,44 @@ class Solution(object):
         :rtype: bool
         """
 
-        if desiredTotal < maxChoosableInteger:
-            return True
-
-        i = 0
-        j = 0
-        player = 1
-
-        while j < desiredTotal:
-            i +=1
-            j += maxChoosableInteger
-            player = (player+1)%2
-            print(i , j, player)
-
-        print(player)
-        if player == 0 :
-            return True
-        # jesli to zalerzne od kroku too
-
         # i ty będzie nie ladnie
 
-        #dla daqnego i , gracza 0 karzy i+j darcza 1 , finalnym wynikiem bedzei i
+        # dla daqnego i , gracza 0 karzy i+j darcza 1 , finalnym wynikiem bedzei i
+        suma_wszystkich = (1 + maxChoosableInteger) * maxChoosableInteger // 2
+        if suma_wszystkich < desiredTotal:
+            return False
+        if desiredTotal <= 0:
+            return True
 
-        memo =
+        # 2. Tworzymy ręczną tablicę na cache (None oznacza nieobliczony stan)
+        # Rozmiar to 2 do potęgi (maxChoosableInteger + 1)
+        cache_size = 1 << (maxChoosableInteger + 1)
+        memo = [None] * cache_size
 
-        def rekur(i , player):
-            if i >= desiredTotal:
-                return player == 1
+        def rekur(current_total, used_mask):
+            # Jeśli ten stan był już kiedyś obliczony, zwróć go natychmiast!
+            if memo[used_mask] is not None:
+                return memo[used_mask]
 
-
-            if player == 1 :
-
-                all_zeros = True
-
-                for j in range(1,maxChoosableInteger+1):
-                    v = rekur(i+j ,(player+1)%2 )
-                    if not v :
-                        all_zeros = False
-
-                #print("1-0" , all_zeros , i)
-                return all_zeros
-
-            if player == 0:
-                for j in range(1,maxChoosableInteger+1):
-                    v = rekur(i+j ,(player+1)%2 )
-                    #print("0-1" ,v ,i, "->" ,j+i)
-                    if v :
+            for move in range(1, maxChoosableInteger + 1):
+                # Sprawdzenie, czy liczba jest wolna
+                if not (used_mask & (1 << move)):
+                    # Jeśli ten ruch wygrywa grę
+                    if current_total + move >= desiredTotal:
+                        memo[used_mask] = True  # Zapisz w tablicy przed powrotem
                         return True
 
-                return False
+                    # Jeśli przeciwnik po tym ruchu przegra
+                    if not rekur(current_total + move, used_mask | (1 << move)):
+                        memo[used_mask] = True  # Zapisz w tablicy przed powrotem
+                        return True
 
+            # Jeśli żaden ruch nie dał wygranej
+            memo[used_mask] = False  # Zapisz w tablicy przed powrotem
+            return False
 
-
-        return rekur(0 ,0)
-
-
-
-
-
-
-
+        return rekur(0, 0)
 
 
 s = Solution()
-print(s.canIWin(5,10))
+print(s.canIWin(4, 6))
